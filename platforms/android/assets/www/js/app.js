@@ -6,27 +6,10 @@ angular.module('test_app', ['ui.router', 'ui.bootstrap', 'test_app.controllers']
 	//-- Init
 })
 
-//-- Service de login
-.service('sDB', function($http, $q)
-{
-	//-- select openDatabase for Safari local testing or sqlitePlugin for device Android
-	
-	var db = window.openDatabase("test_db", "1.0", "Test DB", 10485760); //-- Safari & co
-	// var db = window.sqlitePlugin.openDatabase({name: "test_db", location: 2}); //-- TO ADAPT with SQLite
-
-	return {
-		doit: function()
-		{
-			return db;
-		}
-	}
-})
-
-
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-	$urlRouterProvider.otherwise('/app');
+	$urlRouterProvider.otherwise('/appdownload');
  
 	$stateProvider
 		.state('app', {
