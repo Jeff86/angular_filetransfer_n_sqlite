@@ -34,12 +34,12 @@ angular.module('test_app.controllers', [])
 
 .controller('DownloadController', function($scope)
 {
-	$scope.popKeyboard = function(elem)
+
+	$scope.popKeyboard = function(elem, layout)
 	{
-		//-- Show android native keyboard even if a bluetooth keyboard is connected
 		//-- The virtual keyboard will be linked to input id "elem" available via "document.getElementById(elem);"
 
-		console.log("Lets show the virtual keyboard on input: "+elem);
+		console.log("Lets show the virtual keyboard on input: "+elem+" with layout: "+layout);
 	};
 	
 
