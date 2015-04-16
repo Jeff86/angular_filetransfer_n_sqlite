@@ -35,6 +35,8 @@ angular.module('test_app.controllers', [])
 .controller('DownloadController', function($scope)
 {
 
+	$scope.formCrea = {};
+
 	$scope.popKeyboard = function(elem, layout)
 	{
 		//-- The virtual keyboard will be linked to input id "elem" available via "document.getElementById(elem);"
