@@ -5,7 +5,7 @@ angular.module('test_app.controllers', ['angular-useragent-parser', 'angular-vir
 		delete $httpProvider.defaults.headers.common['X-Requested-With'];
 		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 	})*/
-    
+      
 .config(['VKI_CONFIG', function(VKI_CONFIG) {
             VKI_CONFIG['showInMobile'] = true;
             VKI_CONFIG.layout['Portugu\u00eas Brasileiro'] = {
@@ -22,7 +22,7 @@ angular.module('test_app.controllers', ['angular-useragent-parser', 'angular-vir
                 [["1", '1'], ["2", "2"], ["3", "3"], ["Bksp", "Bksp"]],
                 [["4", "4"], ["5", "5"], ["6", '6'], ["Enter", "Enter"]],
                 [["7", "7"], ["8", "8"], ["9", "9"], []],
-                [["0", "0"], ["-"], ["+"], [","]]
+                [["0", "0"], [], ["."]]
             ], 'lang': ["pt-BR-num"] };
 
             /* CHANGE TEXT LANGUAGE */
@@ -74,6 +74,8 @@ angular.module('test_app.controllers', ['angular-useragent-parser', 'angular-vir
 {
 
 	$scope.formCrea = {};
+
+    $scope.formCrea.input_number = 123.85;
 
 	$scope.popKeyboard = function(elem, layout)
 	{

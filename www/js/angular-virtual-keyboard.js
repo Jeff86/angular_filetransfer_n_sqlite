@@ -71,22 +71,24 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
   this.VKI_shift = this.VKI_shiftlock = false;
   this.VKI_altgr = this.VKI_altgrlock = false;
   this.VKI_dead = false;
+  this.VKI_input = false;
+  this.VKI_TMPinput = false;
   this.VKI_deadBox = true; // Show the dead keys checkbox
   this.VKI_deadkeysOn = config.deadkeysOn !== undefined ? config.deadkeysOn : true;  // Turn dead keys on by default
   this.VKI_numberPad = config.numberPad !== undefined ? config.numberPad : false;  // Allow user to open and close the number pad
   this.VKI_numberPadOn = false;  // Show number pad by default
   this.VKI_kts = this.VKI_kt = config.kt || 'US International';  // Default keyboard layout
   this.VKI_langAdapt = !config.kt;  // Use lang attribute of input to select keyboard (Will be used if no keyboard layout was defined in custom config)
-  this.VKI_size = config.size >=1 && config.size <= 5 ? config.size : 3;  // Default keyboard size (1-5)
+  this.VKI_size = config.size >=1 && config.size <= 5 ? config.size : 5;  // Default keyboard size (1-5)
   this.VKI_sizeAdj = true;  // Allow user to adjust keyboard size
   this.VKI_clearPasswords = false;  // Clear password fields on focus
   this.VKI_imageURI = config.imageURI !== undefined ? config.imageURI : "";  // If empty string, use imageless mode
   this.VKI_clickless = 0;  // 0 = disabled, > 0 = delay in ms
   this.VKI_activeTab = 0;  // Tab moves to next: 1 = element, 2 = keyboard enabled element
   this.VKI_keyCenter = config.keyCenter || 3;
-  this.VKI_forcePosition = config.forcePosition || false;
+  // this.VKI_forcePosition = config.forcePosition || false;
+  this.VKI_forcePosition = "bottom";
   this.VKI_relative = config.relative === false ? false : true;
-  this.VKI_isShow = 0;
 
   this.VKI_isIE = /*@cc_on!@*/false;
   this.VKI_isIE6 = /*@if(@_jscript_version == 5.6)!@end@*/false;
@@ -100,7 +102,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
 
   /* ***** i18n text strings ************************************* */
   this.VKI_i18n = config.i18n;
-
+  
 
   /* ***** Create keyboards ************************************** */
   // - Lay out each keyboard in rows of sub-arrays.  Each sub-array
@@ -189,6 +191,17 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    *
    */
   self.attachVki = function(elem) {
+    var input = elem.cloneNode(true);
+    //document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'vki_input'+elem.id);
+    input.setAttribute('style', 'border:none;position:relative;top:-34px;right: 0; z-index: 9999;display:none;');
+    //input.setAttribute('style', 'border:none;z-index: 9999;display:none;');
+    
+    this.VKI_input = input;
+    
+    elem.parentNode.appendChild(input);  
+      
     if (elem.getAttribute("VKI_attached")) return false;
     if (self.VKI_imageURI) {
       var keybut = document.createElement('img');
@@ -205,14 +218,14 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
       elem.parentNode.insertBefore(keybut, (elem.dir == "rtl") ? elem : elem.nextSibling);
     } else {
       elem.onfocus = function() {
-          //self.VKI_show(elem);
-        /*console.log(self.VKI_target);
-        console.log(this);*/
+          //console.log(this);
+          //console.log(self.VKI_target);
         if (self.VKI_target != this) {
           if (self.VKI_target) self.VKI_close();
           self.VKI_show(this);
-        }
+        }                   
       };
+      
       elem.onclick = function() {
         if (!self.VKI_target) self.VKI_show(this);
       }
@@ -232,15 +245,32 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
       } return false;
     }, false);
     
+    VKI_addListener(input, 'click', function(e) {
+      if (self.VKI_target == this) {
+        e = e || event;
+        if (e.stopPropagation) { e.stopPropagation(); } else e.cancelBubble = true;
+      } return false;
+    }, false);
+
+    
     if (self.VKI_isMoz)
       elem.addEventListener('blur', function() { this.setAttribute('_scrollTop', this.scrollTop); }, false);
-
     
-    
-    VKI_addListener(document.documentElement, 'click', function(e) { self.VKI_close(); }, false);
+    VKI_addListener(document.documentElement, 'click', function(e) { 
+      if(document.activeElement.id == 'vki_input'+elem.id)
+      {
+          if(self.VKI_target)
+            self.VKI_target = false;
+          self.VKI_show(document.activeElement);
+      }        
+      else{
+          self.VKI_close();
+      }
+        
+    }, false); 
   };
-  
-
+     
+    
     
     
 
@@ -306,11 +336,21 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
     return alert('No keyboard named "' + this.VKI_kt + '"');
 
   this.VKI_langCode = {};
+  
+/* Create input box */
+
+          
+      
+
+/*  End create input box*/
+  
+  
   var thead = document.createElement('thead');
     var tr = document.createElement('tr');
       var th = document.createElement('th');
           th.colSpan = "2";
-
+      
+          
         if (self.VKI_showKbSelect) {
           var kbSelect = document.createElement('div');
               kbSelect.title = this.VKI_i18n['02'];
@@ -758,8 +798,14 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
       if (this.VKI_altgr) this.VKI_modify("AltGr");
       this.VKI_target.focus();
       this.keyInputCallback();
+     
+      
+      
     } else if (this.VKI_target.createTextRange && this.VKI_target.range)
       this.VKI_target.range.select();
+      
+    //console.log(this.VKI_target.value);
+    //this.VKI_TMPinput.value = this.VKI_target.value;
   };
 
 
@@ -774,11 +820,11 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
               item.parentNode.removeChild(item);
         });
       }
-      
-      
+          
     if (!this.VKI_target) {
-        
+
       this.VKI_target = elem;
+      
       if (this.VKI_langAdapt && this.VKI_target.lang) {
         var chg = false, sub = [], lang = this.VKI_target.lang.toLowerCase().replace(/-/g, "_");
         for (var x = 0, chg = false; !chg && x < this.VKI_langCode.index.length; x++)
@@ -811,9 +857,25 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
       
       this.VKI_position(true);
       if (self.VKI_isMoz || self.VKI_isWebKit) this.VKI_position(true);
+      
+      
+      console.log('------SHOW-----');
+      this.VKI_input.style.display = 'block';
+      if(this.VKI_target != this.VKI_input){
+          this.VKI_TMPinput = this.VKI_target;
+          this.VKI_target =  this.VKI_input;
+          console.log(this.VKI_TMPinput);
+          console.log(this.VKI_target);
+      }
+      
+      
+      
+      
       this.VKI_target.blur();
       if(this.VKI_target)
         this.VKI_target.focus();
+      
+      
     } else this.VKI_close();
   };
 
@@ -878,8 +940,15 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    * Close the keyboard interface
    *
    */
-  this.VKI_close = function() {
+  this.VKI_close = function() { 
     if (this.VKI_target) {
+        console.log('------CLOSE-----');
+        console.log(this.VKI_TMPinput);
+        console.log(this.VKI_target);
+        this.VKI_TMPinput.value = this.VKI_target.value;
+        this.VKI_target = this.VKI_TMPinput;
+        
+                
       try {
         this.VKI_keyboard.parentNode.removeChild(this.VKI_keyboard);
         if (this.VKI_isIE6) this.VKI_iframe.parentNode.removeChild(this.VKI_iframe);
@@ -894,6 +963,8 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
       if (this.VKI_isIE) {
         setTimeout(function() { self.VKI_target = false; }, 0);
       } else this.VKI_target = false;
+      
+      this.VKI_input.style.display = 'none';
     }
   };
 

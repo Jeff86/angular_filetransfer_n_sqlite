@@ -1,32 +1,28 @@
 
+<div class="col-sm-6">
+	<div class="form-group">
+		<label for="exampleInputEmail1">Email address</label>
+		<input id="form_mail" type="email" class="form-control"  placeholder="Enter email" ng-model="formCrea.input_nom_ean" ng-virtual-keyboard="{showInMobile: true}">
+		<!--<span ng-click="popKeyboard('form_mail', 'layout_mail')"><img src="img/keyboard.png" style="cursor:pointer;"></img></span>-->
+	</div>
 
-<div class="form-group">
-	<label for="exampleInputEmail1">Email address</label>
-	<input id="form_mail" type="email" class="form-control"  placeholder="Enter email" ng-model="formCrea.input_nom_ean" ng-virtual-keyboard="{showInMobile: true}">
-	<span ng-click="popKeyboard('form_mail', 'layout_mail')"><img src="img/keyboard.png" style="cursor:pointer;"></img></span>
+	<div class="form-group">
+		<label for="exampleInputPassword1">Password</label>
+		<input id="form_password" type="password" class="form-control"  placeholder="Password" ng-model="formCrea.input_password" ng-virtual-keyboard="{showInMobile: true, imageURI: 'img/keyboard.png'}">
+		
+	</div>
+
+	<div class="form-group">
+		<div class="col-xs-5 text-right">
+			<label for="exampleInputPassword1">number</label>
+		</div>
+
+		<div class="col-xs-6">
+			<input id="form_number" type="number" step="0.01" class="form-control" placeholder="number" ng-model="formCrea.input_number" ng-virtual-keyboard="{kt: 'Numerico', showInMobile: true, imageURI: 'img/keyboard.png'}">
+		</div>
+		<!--<span ng-click="popKeyboard('form_number','layout_number1')"><img src="img/keyboard.png" style="cursor:pointer;"></img></span>-->
+	</div>
+
+
 </div>
-
-<div class="form-group">
-	<label for="exampleInputPassword1">Password</label>
-	<input id="form_password" type="password" class="form-control"  placeholder="Password" ng-model="formCrea.input_password" ng-virtual-keyboard="{showInMobile: true, imageURI: 'img/keyboard.png'}">
 	
-</div>
-
-
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-
-<div class="form-group">
-	<label for="exampleInputPassword1">number</label>
-	<input id="form_number" type="number" class="form-control" placeholder="number" ng-model="formCrea.input_number" ng-virtual-keyboard="{numberPad: true, showInMobile: true, relative: false, imageURI: 'img/keyboard.png'}">
-	<!-- <span ng-click="popKeyboard('form_number','layout_number1')"><img src="img/keyboard.png" style="cursor:pointer;"></img></span> -->
-</div>
-
