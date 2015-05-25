@@ -172,6 +172,11 @@ angular.module('test_app.controllers', ['angular-useragent-parser', 'angular-vir
 
 		console.log("Lets show the virtual keyboard on input: "+elem+" with layout: "+layout);
 	};
+
+	$scope.doUpd = function()
+	{
+		alert("ok submit");
+	};
 	
 
 })
@@ -180,7 +185,26 @@ angular.module('test_app.controllers', ['angular-useragent-parser', 'angular-vir
 .controller('SqlController', function($scope, $timeout)
 {
 
-	
+	$scope.formCrea = {};
+	$scope.formCrea.input_number = 123.85;
+
+	$scope.formUpdate = {};
+	$scope.formUpdate.input_tva = 0.20;
+	$scope.formUpdate.type_prix = "ttc";
+
+
+
+	$scope.popKeyboard = function(elem, layout)
+	{
+		//-- The virtual keyboard will be linked to input id "elem" available via "document.getElementById(elem);"
+
+		console.log("Lets show the virtual keyboard on input: "+elem+" with layout: "+layout);
+	};
+
+	$scope.doUpd = function()
+	{
+		alert("ok submit");
+	};
 
 });
 
