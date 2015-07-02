@@ -175,7 +175,13 @@ angular.module('test_app.controllers', ['angular-useragent-parser', 'angular-vir
 
 	$scope.doUpd = function()
 	{
-		alert("ok submit");
+		alert("submit done, stock value: " + $scope.formUpdate.input_stock);
+		// alert("ok submit, value ttc: " + $scope.formUpdate.input_prix);
+	};
+
+	$scope.doRecup = function()
+	{
+		alert("submit done, value: "+ $scope.formrecup.ean);
 	};
 	
 

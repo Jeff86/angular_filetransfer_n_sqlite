@@ -1,56 +1,24 @@
-
-<div class="col-xs-6">
-	<div class="form-group">
-		<div class="col-xs-5 text-right">
-			<label for="exampleInputEmail1">Email address</label>
-		</div>
-
-		<div class="col-xs-6">
-			<input id="form_mail" type="email" class="form-control keyboard_fix_input"  placeholder="Enter email" ng-model="formCrea.input_nom_ean" ng-virtual-keyboard="{kt: 'azerty_1', showInMobile: true, imageURI: 'img/keyboard.png'}">
-			</br>
-			</br>
-		</div>
-		<!--<span ng-click="popKeyboard('form_mail', 'layout_mail')"><img src="img/keyboard.png" style="cursor:pointer;"></img></span>-->
-	</div>
-
-	<div class="form-group">
-		<div class="col-xs-5 text-right">
-			<label for="exampleInputPassword1">Password</label>
-		</div>
-		
-		<div class="col-xs-6">
-			<input id="form_password" type="password" class="form-control keyboard_fix_input"  placeholder="Password" ng-model="formCrea.input_password" ng-virtual-keyboard="{kt: 'azerty_3', showInMobile: true, imageURI: 'img/keyboard.png'}">
-			</br>
-			</br>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<div class="col-xs-5 text-right">
-			<label for="exampleInputPassword1">number</label>
-		</div>
-
-		<div class="col-xs-6">
-			<input id="form_number" type="number" step="0.01" class="form-control keyboard_fix_input" placeholder="number" ng-model="formCrea.input_number" ng-virtual-keyboard="{kt: 'number_1', showInMobile: true, imageURI: 'img/keyboard.png'}">
-			</br>
-			</br>
-		</div>
-		<!--<span ng-click="popKeyboard('form_number','layout_number1')"><img src="img/keyboard.png" style="cursor:pointer;"></img></span>-->
-	</div>
+<p class="lead">All these issues must be tested on Android 4.2, the behaviours on Safari, Chrome or Firefox are different from Android app.</p>
 
 
-</div>
-	
+<legend>Issue 1</legend>
+<p><strong>Test to do:</strong> input some text without the virtual keyboard and press enter, nothing happen. Then clic on the keyboard icon to use the virtual keyboard and press OK, function launched.</p>
+<p>This inpput use "enterSubmit" that simulate "Enter" key after pressing OK to launch a function. The problem is that when we don't use the virtual keyboard to input a value and press a real "Enter" key then the ng-submit is not triggered.</p>
 
+<form ng-submit="doRecup()" name="caisseForm" id="caisseForm" class="form-signin" role="form">
+	<input id="inputean" ng-model="formrecup.ean" name="inputean" class="form-control keyboard_fix_input" type="text" autocomplete="off" placeholder="Scannez un code-barre ou recherchez un produit..." autofocus ng-virtual-keyboard="{kt: 'number_1', enterSubmit:doRecup, showInMobile: true, imageURI: 'img/keyboard.png'}">
+</form>
+
+<legend>Issue 2</legend>
+<p><strong>Test to do:</strong> check value with previous form with and without virtual keyboard</p>
+<p>Two way binding is not working when we use the virtual keyboard, the value there is the previous input: {{formrecup.ean}}</p>
 <!-- INJECTION PAGE -->
 
-<form name="creaForm" id="creaForm" ng-submit="doUpd()" class="form-horizontal" role="form">
 
-	
-	<div class="col-xs-12">
-		</br>
-		</br>
-	</div>
+<legend>Issue 3</legend>
+<p><strong>Test to do:</strong> enter value with and without virtual keyboard and check form validation</p>
+<p>The form validation is not respected with virtual keyboard input. When we input values with virtual keyboard the submit button is not updated when values are OK, may be linked to two-way binding. Here we must input both fields and number max lenght is 3.</p>
+<form name="creaForm" id="creaForm" ng-submit="doUpd()" class="form-horizontal" role="form">
 
 	<!-- div gauche -->
 	<div class="col-xs-6">
@@ -63,6 +31,7 @@
 				<span ng-if="formUpdate.type_prix == 'ht'">Prix HT </span>
 				<span class="myred">*</span></label>
 			<div class="col-xs-4">
+				<!-- <input ng-model="formUpdate.input_prix" id="input_prix" class="form-control keyboard_fix_input" type="number" step="0.01" value="" name="input_prix" required ng-virtual-keyboard="{kt: 'number_1', showInMobile: true, imageURI: 'img/keyboard.png'}"> -->
 				<input ng-model="formUpdate.input_prix" id="input_prix" class="form-control keyboard_fix_input" type="number" step="0.01" value="" name="input_prix" required ng-virtual-keyboard="{kt: 'number_1', showInMobile: true, imageURI: 'img/keyboard.png'}">
 			</div>
 			<!-- <div class="col-xs-1"><span class="ouvrir_clavier" for="input_prix"><img src="img/keyboard.png"></img></span></div> -->
@@ -84,8 +53,8 @@
 		<!-- Stock -->
 		<div class="form-group">
 			<label for="input_stock" class="col-xs-5 control-label">Stock <span class="myred">*</span></label>
-			<div class="col-xs-3">
-				<input ng-model="formUpdate.input_stock" id="input_stock" class="form-control keyboard_fix_input" type="number" name="input_stock" required ng-virtual-keyboard="{kt: 'number_1', showInMobile: true, imageURI: 'img/keyboard.png'}">
+			<div class="col-xs-5">
+				<input ng-model="formUpdate.input_stock" ng-maxlength="3" maxlength="3" id="input_stock" class="form-control keyboard_fix_input" type="number" name="input_stock" required ng-virtual-keyboard="{kt: 'number_1', showInMobile: true, imageURI: 'img/keyboard.png'}">
 			</div>
 			<!-- <div class="col-xs-1"><span class="ouvrir_clavier" for="input_stock"><img src="img/keyboard.png"></img></span></div> -->
 		</div>
@@ -104,15 +73,7 @@
 </form>
 
 
-<div class="col-sm-12">
 
-	<h1>Issues:</h1></br>
-	<ul>
-		<li>Two-way binding not working using virtual keyboard (test inserting value with and without the keyboard)</li>
-		<li>Form submit not working if you don't open the virtual keyboard for each input. This is working on Safari but not working on Android app. Compare by testing with "Classic"</li>
-	</ul>
-
-</div>
 
 
 
