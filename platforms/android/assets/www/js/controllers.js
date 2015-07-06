@@ -182,6 +182,9 @@ angular.module('test_app.controllers', ['angular-useragent-parser', 'angular-vir
 	$scope.doRecup = function()
 	{
 		alert("submit done, value: "+ $scope.formrecup.ean);
+
+		//-- Reset
+		$scope.formrecup.ean = "";
 	};
 	
 

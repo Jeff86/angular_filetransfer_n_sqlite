@@ -6,7 +6,8 @@
 <p>This inpput use "enterSubmit" that simulate "Enter" key after pressing OK to launch a function. The problem is that when we don't use the virtual keyboard to input a value and press a real "Enter" key then the ng-submit is not triggered.</p>
 
 <form ng-submit="doRecup()" name="caisseForm" id="caisseForm" class="form-signin" role="form">
-	<input id="inputean" ng-model="formrecup.ean" name="inputean" class="form-control keyboard_fix_input" type="text" autocomplete="off" placeholder="Scannez un code-barre ou recherchez un produit..." autofocus ng-virtual-keyboard="{kt: 'number_1', enterSubmit:doRecup, showInMobile: true, imageURI: 'img/keyboard.png'}">
+	<!-- <input id="inputean" ng-model="formrecup.ean" name="inputean" class="form-control keyboard_fix_input" type="text" autocomplete="off" placeholder="Scannez un code-barre ou recherchez un produit..." autofocus ng-virtual-keyboard="{kt: 'number_1', enterSubmit:doRecup, showInMobile: true, imageURI: 'img/keyboard.png'}"> -->
+	<input id="inputean" ng-model="formrecup.ean" ng-keyup="$event.keyCode == 13 && doRecup()" name="inputean" class="form-control keyboard_fix_input" type="text" autocomplete="off" placeholder="Scannez un code-barre ou recherchez un produit..." autofocus ng-virtual-keyboard="{kt: 'number_1', enterSubmit:doRecup, showInMobile: true, imageURI: 'img/keyboard.png'}">
 </form>
 
 <legend>Issue 2</legend>

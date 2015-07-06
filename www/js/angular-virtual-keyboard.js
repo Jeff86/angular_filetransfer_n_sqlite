@@ -192,7 +192,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    */
   self.attachVki = function(elem) {
     var input = elem.cloneNode(true);
-    //document.createElement('input');
+    
     input.setAttribute('type', 'text');
     input.setAttribute('id', 'vki_input'+elem.id);
     input.setAttribute('style', 'border:none;position:relative;top:-34px;right: 0; z-index: 9999;display:none;');
@@ -219,7 +219,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
     } else {
       elem.onfocus = function() {
           //console.log(this);
-          //console.log(self.VKI_target);
+          console.log(self.VKI_target);
         if (self.VKI_target != this) {
           if (self.VKI_target) self.VKI_close();
           self.VKI_show(this);
@@ -575,6 +575,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
         if (self.VKI_altgr) self.VKI_modify("AltGr");
       } else self.VKI_insert(character);
     } self.VKI_modify("");
+    
     return false;
   }
 
@@ -660,6 +661,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
                       if (self.VKI_altgr) self.VKI_modify("AltGr");
                       self.VKI_target.focus();
                       self.keyInputCallback();
+                      self.VKI_TMPinput.value = self.VKI_target.value; 
                       return true;
                     }, false);
                     break;
@@ -709,6 +711,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    *
    */
   this.VKI_modify = function(type) {
+      console.log('text');
     switch (type) {
       case "Alt":
       case "AltGr": this.VKI_altgr = !this.VKI_altgr; break;
@@ -804,7 +807,8 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
     } else if (this.VKI_target.createTextRange && this.VKI_target.range)
       this.VKI_target.range.select();
       
-    //console.log(this.VKI_target.value);
+      this.VKI_TMPinput.value = this.VKI_target.value
+      
     //this.VKI_TMPinput.value = this.VKI_target.value;
   };
 
@@ -820,7 +824,8 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
               item.parentNode.removeChild(item);
         });
       }
-          
+    //console.log(elem);      
+    //console.log(this.VKI_target);      
     if (!this.VKI_target) {
 
       this.VKI_target = elem;
@@ -865,9 +870,6 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
           this.VKI_target =  this.VKI_input;
           this.VKI_target.value =  this.VKI_TMPinput.value;
       }
-      
-      
-      
       
       this.VKI_target.blur();
       if(this.VKI_target)
@@ -940,9 +942,9 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    */
   this.VKI_close = function() { 
     if (this.VKI_target) {
-        console.log('------CLOSE-----');
+        /*console.log('------CLOSE-----');
         console.log(this.VKI_TMPinput);
-        console.log(this.VKI_target);
+        console.log(this.VKI_target);*/
         this.VKI_TMPinput.value = this.VKI_target.value;
         this.VKI_target = this.VKI_TMPinput;
         
